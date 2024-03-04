@@ -1,4 +1,4 @@
-import { ApplicantsType, ResultType } from "./some.test";
+import { ApplicantsType, ResultType, ReasonsType } from "./some.test";
 
 export const isEligible = (postalCodes: string[], applicants: ApplicantsType) => {
   const newArray: ResultType[] = [];
@@ -12,4 +12,13 @@ export const isEligible = (postalCodes: string[], applicants: ApplicantsType) =>
   });
 
   return newArray;
+};
+
+export const filterIneligibleApplicants = (postalCodes: string[], applicants: ApplicantsType) => {
+  return Object.keys(applicants).filter((key: string) => !postalCodes.includes(applicants[key].postalCode))
+    .map((key: string) => ({
+      name: applicants[key].name,
+      isEligible: false,
+      reason: ReasonsType.postalCodeError,
+    }));
 };

@@ -1,4 +1,7 @@
-import { isEligible } from ".";
+import {
+  isEligible,
+  filterIneligibleApplicants,
+} from ".";
 
 export type ApplicantType = {
   name: string,
@@ -28,6 +31,16 @@ const result: ResultType[] = [
   { name: "Diana", isEligible: false }
 ];
 
+export const enum ReasonsType {
+  postalCodeError = 'Ineligible postal code',
+};
+
+export type IneligibleApplicantTypes = {
+  name: string,
+  isEligible: boolean,
+  reason: keyof typeof ReasonsType,
+};
+
 /*
   Objective: Write a JavaScript function that takes an array of applicants
   and returns an array of objects with each applicant's name and a boolean isEligible indicating
@@ -37,5 +50,20 @@ const result: ResultType[] = [
 describe('Array.some()', () => {
   test('is eligible', () => {
     expect(isEligible(eligiblePostalCodes, applicants)).toStrictEqual(result);
+  });
+
+  /*
+    Variation 2:
+    Extend the original function to not only check eligibility based on postal codes but also filter out
+    and list ineligible applicants along with reasons for their ineligibility.
+  */
+
+  test('filterIneligibleApplicants', () => {
+    const test_result = [
+      { name: "Bob", isEligible: false, reason: "Ineligible postal code" },
+      { name: "Diana", isEligible: false, reason: "Ineligible postal code" },
+    ];
+
+    expect(filterIneligibleApplicants(eligiblePostalCodes, applicants)).toStrictEqual(test_result);
   });
 });
